@@ -6,7 +6,7 @@ Lets Encrypt (https://letsencrypt.org) is a free and automated way to install SS
 # Acknowledgements
 Based off of Ivan Tichy - http://blog.ivantichy.cz/blogpost/view/74 and Jon Yergatian - https://github.com/sonofiron
 
-# Requreiments
+# Requirements
 This script will pull the latest copy of Lets Encrypt and configure it for your JSS. Please read though the entire script before running it. It is highly recomended that you test this on a development envronment before trying in production.
 
 You must have the following software packages installed:
@@ -25,9 +25,7 @@ If you have restrictive firewall rules, port 80 must be open from server out to 
 3. Copy script to JSS server and place in a safe place (not tmp)
 4. run chmod +x /path/to/letsEncrypt.sh
 5. run sudo bash /path/to/letsEncrypt.sh
-6. (Optional) Place in /etc/cron.daily/ for the script to run automatically
-  a. Change ownership of the file
-  b. Change file permissions
+6. (Optional) Place in /etc/cron.daily/ for the script to run automatically. Change ownership of the file and permissions to match
 
 Pleave me feedback and comments on how this could be improved!
 Thanks ~ Kyle
