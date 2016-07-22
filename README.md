@@ -3,7 +3,7 @@ Bash script for automating the generation and renewal of SSL certificates from L
 
 Lets Encrypt (https://letsencrypt.org) is a free and automated way to install SSL certificates into several different types of web servers. Since the JAMF Software Server (JSS) runs off of Tomcat (a web server) I took it upon myself to figure out how to automate the request and installation of the proper certs. This is mainly due to folks running JSS instances without trusted certs and leaving themselves open to potential man in the middle attacks. 
 
-# Awknowledgements
+# Acknowledgements
 Based off of Ivan Tichy - http://blog.ivantichy.cz/blogpost/view/74 and Jon Yergatian - https://github.com/sonofiron
 
 # Requreiments
