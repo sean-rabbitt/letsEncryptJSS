@@ -43,10 +43,10 @@
 ####### Variables #######
 
 # FQDN of the JSS. This cannot be a .local domain
-	DOMAIN="jss.bareis.me"
+	DOMAIN="jss.company.com"
 
 # Email address used to sign the cert. Renewal notices will be sent to this address.
-	EMAIL="kyle@bareis.me"
+	EMAIL="you@domain.com"
 
 # JSS Tomcat Service (default is jamf.tomcat7). May need to be changed if JSS was
 # manually installed.
