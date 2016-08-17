@@ -18,7 +18,11 @@ This script must be run with sudo.
 
 If you have restrictive firewall rules, port 80 must be open from server out to the internet. LetsEncrypt uses port 80 to validate certs. Additionally, certs may only be renewed every 60-90 days (this is accounted for in the script).
 
+<<<<<<< Updated upstream
 ## How to use
+=======
+# How to use
+>>>>>>> Stashed changes
 
 1. Ensure the JSS is running and that you can access the web console
 2. Review and modify variables above the script logic. Stop before the script logic section

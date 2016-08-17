@@ -37,9 +37,13 @@
 # 4. run chmod +x /path/to/letsEncrypt.sh
 # 5. run sudo bash /path/to/letsEncrypt.sh
 # 6. (Optional) Place in /etc/cron.daily/ for the script to run automatically
-# 	6.a Change ownership of the file
+#		6.a Change ownership of the file
 #		6.b Change file permissions
+<<<<<<< Updated upstream
 # 	6.c Remove .sh from script. Validate setup by running: run-parts --test /etc/cron.daily
+=======
+#		6.c Remove .sh from script. Validate setup by running: run-parts --test /etc/cron.daily
+>>>>>>> Stashed changes
 
 ####### Variables #######
 
@@ -49,9 +53,10 @@
 # Email address used to sign the cert. Renewal notices will be sent to this address.
 	EMAIL="you@domain.com"
 
-# JSS Tomcat Service (default is jamf.tomcat7). May need to be changed if JSS was
-# manually installed.
-	JSS_SERVICE="jamf.tomcat7"
+# JSS Tomcat Service (default is jamf.tomcat8 for Casper Suite 9.93). May need to
+# be changed if JSS was manually installed or if there is a different verison of
+# Tomcat.
+	JSS_SERVICE="jamf.tomcat8"
 
 # JSS (Tomcat) Server XML file location
 	JSS_SERVER_XML="/usr/local/jss/tomcat/conf/server.xml"
