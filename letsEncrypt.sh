@@ -39,11 +39,7 @@
 # 6. (Optional) Place in /etc/cron.daily/ for the script to run automatically
 #		6.a Change ownership of the file
 #		6.b Change file permissions
-<<<<<<< Updated upstream
 # 	6.c Remove .sh from script. Validate setup by running: run-parts --test /etc/cron.daily
-=======
-#		6.c Remove .sh from script. Validate setup by running: run-parts --test /etc/cron.daily
->>>>>>> Stashed changes
 
 ####### Variables #######
 
