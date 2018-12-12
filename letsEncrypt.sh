@@ -72,10 +72,10 @@
 ####### Script Logic #######
 
 # JSS keystore location read from the server.xml file
-	JSS_KEYSTORE_LOCATION=$(sed -n 's/^.*keystoreFile=/keystoreFile=/p' $JSS_SERVER_XML | cut -d '"' -f2)
+	JSS_KEYSTORE_LOCATION=$(sed -n 's/^.*certificateKeystoreFile=/certificateKeystoreFile=/p' $JSS_SERVER_XML | cut -d '"' -f2)
 
 # JSS keystore password read from the server.xml file
-	JSS_STOREPASS=$(sed -n 's/^.*keystorePass=/keystorePass=/p' $JSS_SERVER_XML | cut -d '"' -f2)
+	JSS_STOREPASS=$(sed -n 's/^.*certificateKeystorePassword=/certificateKeystorePassword=/p' $JSS_SERVER_XML | cut -d '"' -f2)
 
 # Checking to see if required services are installed. For each service in the
 # array, the for loop will look to see if it can find the binary. If it can't
@@ -129,7 +129,7 @@
 				fi
 	else
 		echo "$(date "+%a %h %d %H:%M:%S"): Certificates not found for $DOMAIN. Generating new cert request." 2>&1 | tee -a "$LOG"
-		"$LETSENCRYPT_LOCATION"/letsencrypt-auto certonly --standalone -d "$DOMAIN" --standalone-supported-challenges http-01 --renew-by-default --email "$EMAIL" --agree-tos
+		"$LETSENCRYPT_LOCATION"/letsencrypt-auto certonly --standalone -d "$DOMAIN" --preferred-challenges http-01 --renew-by-default --email "$EMAIL" --agree-tos
 	fi
 
 # Generating a .pem file from the certs signed by Lets Encrypt. In order to
