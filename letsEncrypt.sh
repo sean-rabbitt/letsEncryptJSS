@@ -72,7 +72,8 @@
 ####### Script Logic #######
 
 # JSS keystore location read from the server.xml file
-	JSS_KEYSTORE_LOCATION=$(sed -n 's/^.*certificateKeystoreFile=/certificateKeystoreFile=/p' $JSS_SERVER_XML | cut -d '"' -f2 | cut -d '/' -f2)
+# Assuming keystore is in /usr/local/jss/tomcat/. Must change if different. Thanks @SeanRabbit
+	JSS_KEYSTORE_LOCATION="/usr/local/jss/tomcat/$(sed -n 's/^.*certificateKeystoreFile=/certificateKeystoreFile=/p' $JSS_SERVER_XML | cut -d '"' -f2 | cut -d '/' -f2)"
 
 # JSS keystore password read from the server.xml file
 	JSS_STOREPASS=$(sed -n 's/^.*certificateKeystorePassword=/certificateKeystorePassword=/p' $JSS_SERVER_XML | cut -d '"' -f2)
