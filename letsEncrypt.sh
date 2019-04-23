@@ -68,6 +68,9 @@
 
 # Log file location
 	LOG="/tmp/letsEncryptConsole.log"
+	
+# JSS Keystore Location - If the keystore is not in /usr/local/jss/tomcat, the 
+# default loation, change line 79 below.
 
 ####### Script Logic #######
 
@@ -130,7 +133,8 @@
 				fi
 	else
 		echo "$(date "+%a %h %d %H:%M:%S"): Certificates not found for $DOMAIN. Generating new cert request." 2>&1 | tee -a "$LOG"
-		"$LETSENCRYPT_LOCATION"/letsencrypt-auto certonly --standalone -d "$DOMAIN" --standalone-supported-challenges http-01 --renew-by-default --email "$EMAIL" --agree-tos
+		"$LETSENCRYPT_LOCATION"/letsencrypt-auto certonly --standalone -d "$DOMAIN" --renew-by-default --email "$EMAIL" --agree-tos
+		# --standalone-supported-challenges http-01  is no longer supported command
 	fi
 
 # Generating a .pem file from the certs signed by Lets Encrypt. In order to
