@@ -8,6 +8,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 # Written by Kyle Bareis
+# Updated by Sean Rabbitt, Rob Potvin, and Matt DiRose
 
 # Based off of Ivan Tichy - http://blog.ivantichy.cz/blogpost/view/74
 # Based off of Jon Yergatian - https://github.com/sonofiron
@@ -33,6 +34,9 @@
 
 # 1. Ensure the JSS is running and that you can access the web console
 # 2. Review and modify variables below. Stop before the script logic section
+# 2.5 - If you are using a non-standard installation of tomcat, check the variable JSS_KEYSTORE_LOCATION located at the very beginning of the script logic section.  The script assumes that the file is in /usr/local/jss/tomcat/.  If it is in a non-standard location, change this line or simply hardcode the location of the file by adding:
+#	JSS_KEYSTORE_LOCATION=/path/to/keystore/location/.file
+#	after the script logic or by replacing that logic completely.
 # 3. Copy script to JSS server and place in a safe place (not tmp)
 # 4. run chmod +x /path/to/letsEncrypt.sh
 # 5. run sudo bash /path/to/letsEncrypt.sh
