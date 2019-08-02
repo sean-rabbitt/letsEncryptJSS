@@ -42,3 +42,12 @@ To fix this problem, the easiest method is to create an entirely new certificate
 Please leave feedback and/or comments on how this could be improved!  And many thanks to Kyle for making this script to begin with.  We miss you!
 
 Thanks! Sean
+
+## CHANGE HISTORY
+— SRABBITT August 2, 2019 1:31 PM - 
+1 - With the release of Java 11 and Jamf Pro 10.14.0, the jamf.tomcat8 service does not appear in the `service --status-all` command.  To
+fix that problem, we switched to looking for the service with `systemctl status jamf.tomcat8` instead.  
+
+2 - Now using the Jamf Pro Command Line Interface (CLI) to start and stop the server.
+
+3 - Added Jamf copyright and support model (free, as in beer)

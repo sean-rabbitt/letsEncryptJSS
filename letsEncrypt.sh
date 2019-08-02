@@ -1,15 +1,27 @@
 #!/bin/bash
 
-# THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-# INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-# PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-# FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-# OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-# DEALINGS IN THE SOFTWARE.
-
+# Copyright (C) 2019, JAMF Software, LLC
+# All rights reserved.
+#
+# SUPPORT FOR THIS PROGRAM
+#
+# This program is distributed "as is" by JAMF Software, LLC.  For more information or support for the appliance, please utilize the following resources:
+#
+#	https://jamfnation.jamfsoftware.com/
+#
+# Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+#
+# * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+#
+# * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+#
+# * Neither the name of the JAMF Software, LLC nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY JAMF SOFTWARE, LLC "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL JAMF SOFTWARE, LLC BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+# 
 # Written by Kyle Bareis
 # Updated by Sean Rabbitt, Rob Potvin, and Matt DiRose
-
+# 
 # Based off of Ivan Tichy - http://blog.ivantichy.cz/blogpost/view/74
 # Based off of Jon Yergatian - https://github.com/sonofiron
 
@@ -74,7 +86,10 @@
 	LOG="/tmp/letsEncryptConsole.log"
 	
 # JSS Keystore Location - If the keystore is not in /usr/local/jss/tomcat, the 
-# default loation, change line 79 below.
+# default loation, change line 98 below.
+
+# Jamf Pro Command Line Interface directory and app location
+	JAMF_PRO_CLI="/usr/local/bin/jamf-pro"
 
 ####### Script Logic #######
 
@@ -147,11 +162,16 @@
 	echo "$(date "+%a %h %d %H:%M:%S"): Exporting certificates from Lets Encrypt" 2>&1 | tee -a "$LOG"
 	openssl pkcs12 -export -in /etc/letsencrypt/live/"$DOMAIN"/fullchain.pem -inkey /etc/letsencrypt/live/"$DOMAIN"/privkey.pem -out /etc/letsencrypt/live/"$DOMAIN"/cert_and_key.p12 -name tomcat -CAfile /etc/letsencrypt/live/"$DOMAIN"/chain.pem -caname tomcat -password pass:"$LETSENCRYPT_STOREPASS"
 
+# — SRABBITT August 2, 2019 9:35 AM Updated code to check for server running
+# with systemctl instead of service as behavior changed in Ubuntu 18.04 with
+# Java 11 for Jamf Pro 10.14 and Higher.  Tested with Ubuntu 18.04 and Jamf Pro
+# 10.12.1 as well.
+
 # Stopping Tomcat while making changes. The script will restart Tomcat when finished.
-	CHECK_JSS_SERVICE=$(service --status-all | grep "$JSS_SERVICE" | cut -d ' ' -f6)
-	if [ "$CHECK_JSS_SERVICE" = "$JSS_SERVICE" ]; then
+	CHECK_JSS_SERVICE=$(systemctl status "$JSS_SERVICE" | grep "active (running)" | cut -d ' ' -f5)
+	if [ "$CHECK_JSS_SERVICE" = "active" ]; then
 		echo "$(date "+%a %h %d %H:%M:%S"): $JSS_SERVICE is running. Stopping service now." 2>&1 | tee -a "$LOG"
-		service "$JSS_SERVICE" stop
+		$JAMF_PRO_CLI server stop 
 	else
 		echo "$(date "+%a %h %d %H:%M:%S"): $JSS_SERVICE not found. Exiting script!" 2>&1 | tee -a "$LOG"
 		echo "$(date "+%a %h %d %H:%M:%S"): If this is your first time running this script, you will need to remove /etc/letsencrypt and /var/git/letsencrypt" 2>&1 | tee -a "$LOG"
@@ -183,9 +203,9 @@
 
 # Restarting Tomcat
 	CHECK_JSS_SERVICE=""
-	service "$JSS_SERVICE" start
-	CHECK_JSS_SERVICE=$(service --status-all | grep "$JSS_SERVICE" | cut -d ' ' -f6)
-	if [ "$CHECK_JSS_SERVICE" = "$JSS_SERVICE" ]; then
+	$JAMF_PRO_CLI server start 
+	CHECK_JSS_SERVICE=$(systemctl status "$JSS_SERVICE" | grep "active (running)" | cut -d ' ' -f5)
+	if [ "$CHECK_JSS_SERVICE" = "active" ]; then
 		echo "$(date "+%a %h %d %H:%M:%S"): $JSS_SERVICE is running." 2>&1 | tee -a "$LOG"
 		exit 0
 	else
